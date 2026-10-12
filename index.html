@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Space Market – Gear for Cosmic Minds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b1f;--card:#111737;--ink:#eaf0ff;--mute:#9aa6d1;--accent:#7c5cff;--glow:#37e6c7;--line:#252d5a;--warn:#ffb347;--bad:#ff6b8a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:400 16px/1.6 "Space Grotesk",system-ui,Arial,sans-serif;min-height:100vh;
+background:var(--bg);
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--glow);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(7,11,31,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+.logo{font-weight:700;font-size:20px;letter-spacing:.5px}
+.logo b{color:var(--glow)}
+.cartbtn{background:linear-gradient(135deg,var(--accent),#4f8cff);border:0;border-radius:999px;padding:7px 18px;font-weight:500;color:#fff}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav button{background:none;border:0;padding:6px 14px;border-radius:8px;white-space:nowrap;color:var(--mute)}
+nav button[aria-current=true]{background:rgba(124,92,255,.2);color:var(--ink);font-weight:700}
+.hero{padding:36px 0 12px}
+.hero h1{font-size:clamp(30px,7vw,52px);line-height:1.1;margin:0 0 10px;max-width:640px}
+.hero h1 span{background:linear-gradient(90deg,var(--glow),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);margin:0 0 18px;max-width:520px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools input,.tools select{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.tools input{flex:1;min-width:180px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 14px;white-space:nowrap;color:var(--mute)}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.pic{border-radius:12px;height:110px;display:grid;place-items:center;font-size:54px;background:radial-gradient(circle at 30% 20%,rgba(124,92,255,.35),rgba(55,230,199,.08))}
+.card h3{margin:8px 0 0;font-size:17px}
+.cat{color:var(--mute);font-size:13px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:10px}
+.price{font-weight:700;font-size:18px;color:var(--glow)}
+.badge{font-size:12px;border-radius:6px;padding:0 8px;align-self:flex-start}
+.low{background:rgba(255,179,71,.15);color:var(--warn)}
+.out{background:rgba(255,107,138,.15);color:var(--bad)}
+.btn{background:linear-gradient(135deg,var(--accent),#4f8cff);color:#fff;border:0;border-radius:10px;padding:6px 14px;font-weight:500}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.alt{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.bad{background:transparent;border:1px solid var(--bad);color:var(--bad)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:16px 0}
+.panel h2{margin:0 0 8px;font-size:20px}
+label{display:block;font-size:14px;color:var(--mute);margin-top:10px}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.ord{border-top:1px solid var(--line);padding:10px 0}
+.ord:first-of-type{border-top:0}
+.mute{color:var(--mute);font-size:14px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10;display:none}
+.ov.on{display:block}
+.sheet{position:absolute;bottom:0;inset-inline:0;max-width:560px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:20px 20px 0 0;max-height:90%;overflow:auto;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.big{font-size:72px;text-align:center}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline:16px;margin:auto;max-width:380px;background:var(--glow);color:#04211c;padding:10px 16px;border-radius:12px;z-index:20;text-align:center;display:none;font-weight:500}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stats div{flex:1;min-width:110px;background:rgba(124,92,255,.15);border-radius:12px;padding:10px}
+.stats b{display:block;font-size:22px;color:var(--glow)}
+.empty{color:var(--mute);text-align:center;padding:28px 0}
+.arow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.arow span{flex:1;min-width:140px}
+.arow input{width:80px}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:24px 0 40px}
+.neb{position:fixed;inset:-20%;z-index:0;pointer-events:none;background:radial-gradient(600px 420px at 20% 20%,rgba(124,92,255,.30),transparent 70%),radial-gradient(520px 420px at 80% 70%,rgba(55,230,199,.17),transparent 70%),radial-gradient(500px 500px at 60% 8%,rgba(255,107,200,.13),transparent 70%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.18)}}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.neb{animation:none}}
+.pic{overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.big img{width:100%;max-height:220px;object-fit:cover;border-radius:12px}
+.thumb{width:36px;height:36px;border-radius:8px;object-fit:cover;vertical-align:middle}
+.hint{color:var(--mute);font-size:13px;margin:4px 0 0}
+.acts{display:flex;gap:8px;align-items:center}.addbtn{background:transparent;border:1px solid var(--glow);color:var(--glow);border-radius:999px;padding:6px 14px;font-weight:500}.addbtn:hover{background:rgba(55,230,199,.12)}@media(max-width:480px){.lg{display:none}.logo{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="neb" aria-hidden="true"></div><canvas id="sky" aria-hidden="true"></canvas>
+<header><div class="wrap">
+  <div class="bar"><span class="logo">🪐 Space<b>Market</b></span><span class="acts"><button class="addbtn" id="addBtn">+ Add<span class="lg"> product</span></button><button class="cartbtn" id="cartBtn">Cart (<span id="cnt">0</span>)</button></span></div>
+  <nav id="nav"></nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer>Space Market · Free shipping across the galaxy 🚀</footer>
+<div class="ov" id="ov"><div class="sheet" id="sheet" role="dialog" aria-label="Details"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>'$'+(+n).toFixed(2);
+const CATS=['All','Gadgets','Apparel','Home & Decor','Science & Toys','Accessories'];
+const VIEWS=[['shop','Shop'],['orders','My orders'],['admin','Admin']];
+const S={view:'shop',cat:'All',q:'',sort:'new',products:[],cart:{},orders:[],pw:''};
+const prod=id=>S.products.find(p=>p.id==id);
+async function api(url,o={}){
+ const h={...(o.headers||{})};if(S.pw)h['x-admin-password']=S.pw;
+ let body;if(o.json){h['Content-Type']='application/json';body=JSON.stringify(o.json)}
+ const r=await fetch(url,{method:o.method,body,headers:h});
+ const d=await r.json().catch(()=>({}));
+ if(!r.ok)throw new Error(d.error||'Request failed');return d}
+function shrink(file){return new Promise((ok,no)=>{const img=new Image(),u=URL.createObjectURL(file);
+ img.onload=()=>{const m=640,k=Math.min(1,m/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.8))};
+ img.onerror=()=>no(new Error('Could not read this image'));img.src=u})}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',2800)}
+function nav(){$('#nav').innerHTML=VIEWS.map(([k,l])=>`<button data-v="${k}" ${S.view==k?'aria-current="true"':''}>${l}</button>`).join('');
+ $('#cnt').textContent=Object.values(S.cart).reduce((a,b)=>a+b,0)}
+const pic=p=>p.image?`<img src="${esc(p.image)}" alt="" loading="lazy">`:esc(p.emoji);
+function stockTag(p){return p.stock<=0?'<span class="badge out">Sold out</span>':p.stock<=5?`<span class="badge low">Only ${p.stock} left</span>`:''}
+function grid(){
+ const q=S.q.trim().toLowerCase();
+ let l=S.products.filter(p=>(S.cat=='All'||p.category==S.cat)&&(!q||(p.name+' '+(p.description||'')).toLowerCase().includes(q)));
+ if(S.sort=='asc')l.sort((a,b)=>a.price-b.price);else if(S.sort=='desc')l.sort((a,b)=>b.price-a.price);else l.sort((a,b)=>b.id-a.id);
+ $('#grid').innerHTML=l.length?l.map(p=>`<article class="card"><div class="pic" aria-hidden="true">${pic(p)}</div><h3>${esc(p.name)}</h3><span class="cat">${esc(p.category)}</span>${stockTag(p)}<div class="row"><span class="price">${fmt(p.price)}</span><span><button class="btn alt" data-info="${p.id}">Details</button> <button class="btn" data-add="${p.id}" ${p.stock<=0?'disabled':''}>Add</button></span></div></article>`).join(''):'<p class="empty" style="grid-column:1/-1">Nothing found in this sector. Try another search.</p>'}
+function shop(){
+ $('#app').innerHTML=`<section class="hero"><h1>Gear for <span>cosmic minds</span></h1><p>Gadgets, apparel and decor from beyond the atmosphere. Order today, orbit tomorrow.</p>
+ <div class="tools"><input id="q" type="search" placeholder="Search the market…" value="${esc(S.q)}" aria-label="Search"><select id="sort" aria-label="Sort"><option value="new">Newest</option><option value="asc">Price: low to high</option><option value="desc">Price: high to low</option></select></div>
+ <div class="chips">${CATS.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${S.cat==c}">${c}</button>`).join('')}</div></section><div class="grid" id="grid"></div>`;
+ $('#sort').value=S.sort;grid()}
+function ordList(admin){
+ if(!S.orders.length)return '<p class="empty">No orders found.</p>';
+ return S.orders.map(o=>`<div class="ord"><b>Order #${o.id}</b> · ${esc(o.created_at.slice(0,10))} · ${fmt(o.total)}<br><span class="mute">${esc(o.name)} · ${esc(o.email)} · ${esc(o.address)}</span><br><span class="mute">${o.items.map(i=>esc(i.name)+' ×'+i.qty).join(', ')}</span><br>
+ ${admin?`<select data-st="${o.id}" aria-label="Order status" style="width:auto">${['New','Packed','Shipped','Delivered'].map(s=>`<option ${o.status==s?'selected':''}>${s}</option>`).join('')}</select>`:`Status: <b>${esc(o.status)}</b>`}</div>`).join('')}
+function ordersView(){S.orders=[];
+ $('#app').innerHTML=`<div class="panel"><h2>My orders</h2><form id="of"><label>Email used at checkout<input type="email" name="email" required autocomplete="email"></label><p><button class="btn">Show my orders</button></p></form><div id="ol"></div></div>`}
+async function adminView(){
+ if(!S.pw){$('#app').innerHTML=`<div class="panel"><h2>Admin sign in</h2><form id="lf"><label>Password<input type="text" name="pw" required autocomplete="off"></label><p><button class="btn">Sign in</button></p></form></div>`;return}
+ try{S.orders=await api('/api/admin/orders')}catch(e){S.pw='';toast(e.message);return adminView()}
+ const rev=S.orders.reduce((a,o)=>a+o.total,0);
+ $('#app').innerHTML=`<div class="panel"><h2>Mission control</h2><div class="stats"><div><b>${S.products.length}</b>Products</div><div><b>${S.orders.length}</b>Orders</div><div><b>${fmt(rev)}</b>Revenue</div></div><p><button class="btn" data-goto="af">+ Add a new product</button></p></div>
+ <div class="panel" id="addp"><h2>Add a product</h2>${prodForm('af')}</div>
+ <div class="panel"><h2>Inventory</h2>${S.products.map(p=>`<div class="arow"><span>${p.image?`<img class="thumb" src="${esc(p.image)}" alt="">`:esc(p.emoji)} ${esc(p.name)} · ${fmt(p.price)}</span><input type="number" min="0" value="${p.stock}" data-stock="${p.id}" aria-label="Stock"><button class="btn bad" data-del="${p.id}">Delete</button></div>`).join('')}</div>
+ <div class="panel"><h2>Orders</h2>${ordList(true)}</div>`}
+function prodForm(fid){return `<form id="${fid}"><label>Name<input type="text" name="name" required></label><label>Description<textarea name="description" rows="2"></textarea></label>
+ <label>Category<select name="category">${CATS.slice(1).map(c=>`<option>${c}</option>`).join('')}</select></label><label>Price (USD)<input type="number" name="price" min="0.5" step="0.5" required></label>
+ <label>Stock<input type="number" name="stock" min="0" value="10"></label><label>Product photo<input type="file" name="img" accept="image/*"></label><p class="hint">Optional. The photo is resized automatically. Without it, the emoji below is used.</p><label>Emoji icon<input type="text" name="emoji" value="📦" maxlength="4"></label><p><button class="btn">Add product</button></p></form>`}
+function render(){nav();({shop,orders:ordersView,admin:adminView})[S.view]()}
+function info(id){const p=prod(id);
+ $('#sheet').innerHTML=`<div class="big">${pic(p)}</div><h2 style="margin:0">${esc(p.name)}</h2><p class="mute">${esc(p.category)}</p><p>${esc(p.description)}</p><p><span class="price">${fmt(p.price)}</span> ${stockTag(p)}</p>
+ <button class="btn" data-add="${p.id}" ${p.stock<=0?'disabled':''}>Add to cart</button> <button class="btn alt" data-close>Close</button>`;
+ $('#ov').classList.add('on')}
+function cartView(){
+ const ids=Object.keys(S.cart);
+ if(!ids.length){$('#sheet').innerHTML='<h2>Cart</h2><p class="empty">Your cart is floating empty. Add some gear!</p><button class="btn alt" data-close>Close</button>';return}
+ const total=ids.reduce((a,i)=>a+prod(i).price*S.cart[i],0);
+ $('#sheet').innerHTML=`<h2>Cart</h2>${ids.map(i=>{const p=prod(i);return `<div class="line"><span>${esc(p.emoji)} ${esc(p.name)}<br><span class="mute">${fmt(p.price)}</span></span><span class="qty"><button data-dec="${i}" aria-label="Decrease">−</button> ${S.cart[i]} <button data-add="${i}" aria-label="Increase">+</button></span></div>`}).join('')}
+ <p><b>Total: ${fmt(total)}</b> <span class="mute">· free shipping</span></p>
+ <form id="cf"><label>Full name<input type="text" name="name" required autocomplete="name"></label><label>Email<input type="email" name="email" required autocomplete="email"></label><label>Shipping address<input type="text" name="address" required autocomplete="street-address"></label>
+ <p><button class="btn">Place order</button> <button type="button" class="btn alt" data-close>Keep shopping</button></p></form>`}
+function openAdd(){
+ $('#sheet').innerHTML=S.pw?`<h2>Add a product</h2>${prodForm('af2')}<p><button class="btn alt" data-close>Cancel</button></p>`
+ :`<h2>Admin sign in</h2><p class="mute">Enter the admin password to add products.</p><form id="lf2"><label>Password<input type="password" name="pw" required autocomplete="current-password"></label><p><button class="btn">Continue</button> <button type="button" class="btn alt" data-close>Cancel</button></p></form>`;
+ $('#ov').classList.add('on')}
+const openCart=()=>{cartView();$('#ov').classList.add('on')},close=()=>$('#ov').classList.remove('on');
+function add(id){const p=prod(id);if((S.cart[id]||0)>=p.stock)return toast('No more stock for '+p.name);
+ S.cart[id]=(S.cart[id]||0)+1;nav();
+ if($('#ov').classList.contains('on')&&$('#cf'))cartView();else toast('Added '+p.name)}
+document.addEventListener('click',async e=>{
+ const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+ try{
+ if(d.v){S.view=d.v;render()}
+ else if(d.cat){S.cat=d.cat;shop()}
+ else if(d.goto){$('#addp').scrollIntoView({behavior:'smooth'});$('#af input[name=name]').focus()}
+ else if(d.add)add(d.add);
+ else if(d.info)info(d.info);
+ else if(d.dec){if(--S.cart[d.dec]<=0)delete S.cart[d.dec];nav();cartView()}
+ else if(d.del){if(confirm('Delete this product?')){await api('/api/products/'+d.del,{method:'DELETE'});S.products=await api('/api/products');adminView()}}
+ else if(t.id=='cartBtn')openCart();
+ else if(t.id=='addBtn')openAdd();
+ else if('close' in d)close()
+ }catch(err){toast(err.message)}});
+$('#ov').addEventListener('click',e=>{if(e.target.id=='ov')close()});
+document.addEventListener('input',e=>{if(e.target.id=='q'){S.q=e.target.value;grid()}});
+document.addEventListener('change',async e=>{
+ const t=e.target;
+ try{
+ if(t.id=='sort'){S.sort=t.value;grid()}
+ if(t.dataset.st){await api('/api/orders/'+t.dataset.st,{method:'PATCH',json:{status:t.value}});toast('Order status updated')}
+ if(t.dataset.stock){await api('/api/products/'+t.dataset.stock,{method:'PATCH',json:{stock:t.value}});S.products=await api('/api/products');toast('Stock updated')}
+ }catch(err){toast(err.message)}});
+document.addEventListener('submit',async e=>{
+ e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f));
+ try{
+  if(f.id=='lf'){S.pw=d.pw;adminView()}
+  if(f.id=='of'){S.orders=await api('/api/orders?email='+encodeURIComponent(d.email));$('#ol').innerHTML=ordList(false)}
+  if(f.id=='lf2'){S.pw=d.pw;try{await api('/api/admin/orders')}catch(err){S.pw='';throw err}openAdd()}
+  if(f.id=='af'||f.id=='af2'){const file=d.img;delete d.img;if(file&&file.size)d.image=await shrink(file);await api('/api/products',{method:'POST',json:d});S.products=await api('/api/products');toast('Product added to the shop');if(f.id=='af2'){close();S.view='shop';render()}else adminView()}
+  if(f.id=='cf'){
+   const items=Object.keys(S.cart).map(i=>({id:+i,qty:S.cart[i]}));
+   const r=await api('/api/orders',{method:'POST',json:{...d,items}});
+   S.cart={};S.products=await api('/api/products');close();S.view='orders';render();toast('Order #'+r.id+' confirmed 🚀')}
+ }catch(err){toast(err.message)}});
+(function(){const c=$('#sky'),x=c.getContext('2d');if(!x)return;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let W,H,stars=[],shoot=null;
+ function size(){const r=devicePixelRatio||1;W=innerWidth;H=innerHeight;c.width=W*r;c.height=H*r;x.setTransform(r,0,0,r,0,0);
+  stars=Array.from({length:Math.min(170,Math.floor(W*H/8000))},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,s:Math.random()*.25+.05,p:Math.random()*6.28,t:Math.random()*.003+.001}))}
+ function frame(t){x.clearRect(0,0,W,H);
+  for(const s of stars){if(!reduce){s.y+=s.s;s.x+=s.s*.3;if(s.y>H){s.y=0;s.x=Math.random()*W}if(s.x>W)s.x=0}
+   x.globalAlpha=.3+.7*(.5+.5*Math.sin(t*s.t*6+s.p));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);x.fill()}
+  if(!reduce&&!shoot&&Math.random()<.004)shoot={x:Math.random()*W*.8,y:Math.random()*H*.4,vx:7+Math.random()*4,vy:3+Math.random()*2,l:1};
+  if(shoot){x.globalAlpha=shoot.l;const ex=shoot.x-shoot.vx*8,ey=shoot.y-shoot.vy*8,g=x.createLinearGradient(shoot.x,shoot.y,ex,ey);
+   g.addColorStop(0,'#fff');g.addColorStop(1,'rgba(255,255,255,0)');x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(shoot.x,shoot.y);x.lineTo(ex,ey);x.stroke();
+   shoot.x+=shoot.vx;shoot.y+=shoot.vy;shoot.l-=.012;if(shoot.l<=0)shoot=null}
+  x.globalAlpha=1;if(!reduce)requestAnimationFrame(frame)}
+ size();addEventListener('resize',()=>{size();if(reduce)frame(0)});requestAnimationFrame(frame)})();
+api('/api/products').then(p=>{S.products=p;render()}).catch(()=>{$('#app').innerHTML='<p class="empty">Could not reach the server.</p>';nav()});
+</script>
+</body>
+</html>
